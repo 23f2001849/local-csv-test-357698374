@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Products Total Price</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <style>
+        body { padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Products Total Price</h1>
+        <div id="total" class="alert alert-info"></div>
+    </div>
+    <script>
+        fetch('products.csv')
+        .then(response => response.text())
+        .then(data => {
+            let lines = data.split('\n');
+            let total = 0;
+            lines.forEach((line, index) => {
+                if(index !== 0) {
+                    let price = Number(line.split(',')[1]);
+                    if (!isNaN(price)) {
+                        total += price;
+                    }
+                }
+            });
+            document.getElementById('total').innerText = "Total Price: $" + total.toFixed(2);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>
